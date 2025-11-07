@@ -1,0 +1,258 @@
+/* Estilos Generales y Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Evita scrolls inesperados */
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+/* Clase para ocultar elementos con display: none */
+.hidden {
+    display: none !important;
+}
+
+/* ------------------------------------- */
+/* Pantalla de Carga Inicial (Intro) */
+/* ------------------------------------- */
+.loading-screen {
+    position: fixed; /* Ocupa toda la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0; /* Un color suave para el fondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+    opacity: 1;
+    transition: opacity 0.5s ease-out; /* Transición suave para desvanecer */
+}
+
+/* El JavaScript maneja la opacidad y la clase hidden */
+.loading-screen.hidden {
+    opacity: 0;
+    /* Dejamos display: none en la clase general .hidden para asegurar que se vaya */
+    pointer-events: none; 
+}
+
+.spinner {
+    font-size: 8em; /* Cara grande */
+    /* Animación base para la intro inicial */
+    animation: fadeAndRotate 3s ease-out forwards; 
+    display: inline-block; /* Necesario para la transformación */
+}
+
+
+@keyframes fadeAndRotate {
+    0% {
+        opacity: 0.2; /* Empezar desvanecido */
+        transform: rotate(0deg);
+    }
+    50% {
+        opacity: 1; /* Alcanzar opacidad completa a mitad */
+    }
+    100% {
+        opacity: 0; /* Terminar completamente desvanecido */
+        transform: rotate(720deg); /* Girar dos vueltas completas */
+    }
+}
+
+
+/* ------------------------------------- */
+/* Pantalla de Inicio (Main Menu) */
+/* ------------------------------------- */
+.main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /* Fondo blanco por defecto */
+    background-size: cover; /* Cubrir todo el espacio */
+    background-position: center; /* Centrar la imagen */
+    background-repeat: no-repeat; /* No repetir la imagen */
+    z-index: 999; /* Justo debajo de la pantalla de carga */
+    
+    /* Aquí puedes agregar tu imagen de fondo local */
+    background-image: url('imgs/fondo.jpg'); /* ¡Ruta a tu imagen! */
+}
+
+
+.main-menu .content {
+    text-align: center;
+    color: white; /* Color del texto para contrastar con el fondo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra para mejor legibilidad */
+}
+
+.main-menu h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.play-button {
+    background-color: #4CAF50; /* Un verde vibrante */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 2em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.play-button:hover {
+    background-color: #45a049;
+}
+
+
+/* ===================================== */
+/* ESTILOS AGREGADOS PARA EL JUEGO */
+/* ===================================== */
+
+/* ------------------------------------- */
+/* Pantalla de Carga (Overlay sobre el fondo de juego) */
+/* ------------------------------------- */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Mantenemos el fondo semi-transparente para la carga de juego */
+    background-color: rgba(255, 255, 255, 0.8); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Más alto que el contenedor de juego */
+    pointer-events: none; /* No bloquea clics por defecto */
+    transition: opacity 0.3s ease;
+}
+
+/* CLASES DE CONTROL DE ANIMACIÓN DE TRANSICIÓN */
+
+/* Usada para la re-intro de 3 segundos (copia la animación original) */
+.spinner-intro-repeat {
+    animation: fadeAndRotate 3s ease-out forwards !important; 
+    font-size: 8em !important;
+}
+
+/* Usada para la carga rápida (sólo girar, 0.8s) */
+.spinner-spin-only {
+    animation: spin 0.8s linear infinite !important; /* Gira rápido y constante */
+    opacity: 1 !important; /* Mantiene la opacidad para la carga rápida */
+    font-size: 5em !important;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------- */
+/* Contenedor del Juego y Tarjeta de Pregunta */
+/* ------------------------------------- */
+.game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 998; /* Debajo del overlay */
+}
+
+.question-card {
+    background-color: rgba(255, 255, 255, 0.9); /* Tarjeta blanca semi-transparente */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.question-text {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* Estilos de las opciones (similares a Duolingo) */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre opciones */
+}
+
+.option-button {
+    background-color: #f7f7f7;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-button:hover:not(:disabled) {
+    background-color: #e6e6e6;
+    border-color: #aaa;
+}
+
+/* Retroalimentación Visual (Duolingo Style) */
+.option-button.correct {
+    background-color: #d4edda; /* Verde claro */
+    border-color: #28a745; /* Borde verde fuerte */
+    font-weight: bold;
+}
+
+.option-button.incorrect {
+    background-color: #f8d7da; /* Rojo claro */
+    border-color: #dc3545; /* Borde rojo fuerte */
+    font-weight: bold;
+}
+
+/* ------------------------------------- */
+/* Mensaje Emergente (Éxito/Error) */
+/* ------------------------------------- */
+.feedback-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    color: white;
+    z-index: 2000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.feedback-success {
+    background-color: #5cb85c; /* Verde éxito */
+}
+
+.feedback-error {
+    background-color: #d9534f; /* Rojo error */
+}
+
+.feedback-message.show {
+    opacity: 1;
+}
